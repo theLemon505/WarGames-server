@@ -2,7 +2,7 @@ const WebSocket = require("ws")
 const Client = require("./client")
 const Lobby = require("./lobby")
 const Room = require("./room")
-const wss = new WebSocket.Server({port:4040})
+const wss = new WebSocket.Server("https://wargames-server.herokuapp.com" + 4040 + "/")
 const CircularJSON = require('circular-json')
 
 console.log("server running on port:4040")
