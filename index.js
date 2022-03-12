@@ -191,6 +191,7 @@ wss.on("connection", (ws) => {
                 if(clients[i].lobby != null){
                     lobby = clients[i].lobby
                     lobby.removeClient(clients[i])
+                    lobby.sendToAllClients(CircularJSON.stringify({"type":"remove", "status":"good", "client":clients[i].id}))
                     lobby.sendToAllClients(CircularJSON.stringify({"type":"lobby", "status":"good", "clients":lobby.clients}))
                     if(lobby.clients.length == 0){
                         removeLobby(lobby)
@@ -199,6 +200,7 @@ wss.on("connection", (ws) => {
                 if(clients[i].room != null){
                     room = clients[i].room
                     room.removeClient(clients[i])
+                    room.sendToAllClients(CircularJSON.stringify({"type":"remove", "status":"good", "client":clients[i].id}))
                     room.sendToAllClients(CircularJSON.stringify({"type":"lobby", "status":"good", "clients":room.clients}))
                     if(room.clients.length == 0){
                         removeRoom(room)
