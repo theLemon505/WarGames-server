@@ -4,6 +4,7 @@
   "description": "a server for the wargames fps game",
   "main": "index.js",
   "scripts": {
+    "start":"node index.js",
     "test": "node index.js"
   },
   "author": "Michael Teschner",
