@@ -2,8 +2,12 @@ const WebSocket = require("ws")
 const Client = require("./client")
 const Lobby = require("./lobby")
 const Room = require("./room")
-const wss = new WebSocket.Server("https://wargames-server.herokuapp.com" + 4040 + "/")
+const express = require("express")
+const app = express()
+const server = require("http").createServer(app)
+const wss = new WebSocket.Server({server:server})
 const CircularJSON = require('circular-json')
+const res = require("express/lib/response")
 
 console.log("server running on port:4040")
 
@@ -223,3 +227,6 @@ function uuidv4() {
         return v.toString(16);
     });
 }
+
+app.get("/", (req, res) => res.send("server on port 4040"))
+server.listen(4040, () => {})
