@@ -1,0 +1,17 @@
+{
+  "name": "wargames-server",
+  "version": "0.0.1",
+  "description": "a server for the wargames fps game",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "Michael Teschner",
+  "license": "MIT",
+  "dependencies": {
+    "circular-json": "^0.5.9",
+    "express": "^4.17.3",
+    "socket.io": "^4.4.1",
+    "ws": "^8.5.0"
+  }
+}
