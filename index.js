@@ -152,17 +152,32 @@ wss.on("connection", (ws) => {
             if (json.type == "join-lobby"){
                 var lobby = getLobby(json.name)
                 var client = getClient(json.id)
-                client.username = json.username
-                lobby.addClient(client)
-                lobby.sendToAllClients(CircularJSON.stringify({"type":"lobby", "status":"good", "clients":lobby.clients}))
+                if(json.username != null){
+                    client.username = json.username
+                    lobby.addClient(client)
+                    lobby.sendToAllClients(CircularJSON.stringify({"type":"lobby", "status":"good", "clients":lobby.clients}))
+                }
+                else{
+                    client.username = "lime"
+                    lobby.addClient(client)
+                    lobby.sendToAllClients(CircularJSON.stringify({"type":"lobby", "status":"good", "clients":lobby.clients}))
+                }
             }
             if (json.type == "create-lobby"){
                 var lobby = new Lobby(json.name)
                 var client = getClient(json.id)
-                client.username = json.username
-                lobby.addClient(client)
-                lobbies.push(lobby)
-                lobby.sendToAllClients(CircularJSON.stringify({"type":"lobby", "status":"good", "clients":lobby.clients}))
+                if(json.username != null){
+                    client.username = json.username
+                    lobby.addClient(client)
+                    lobbies.push(lobby)
+                    lobby.sendToAllClients(CircularJSON.stringify({"type":"lobby", "status":"good", "clients":lobby.clients}))
+                }
+                else{
+                    client.username = "lime"
+                    lobby.addClient(client)
+                    lobbies.push(lobby)
+                    lobby.sendToAllClients(CircularJSON.stringify({"type":"lobby", "status":"good", "clients":lobby.clients}))
+                }
             }
             if (json.type == "ready"){
                 client.ready = json.state
