@@ -229,4 +229,4 @@ function uuidv4() {
 }
 
 app.get("/", (req, res) => res.send("server on port 4040"))
-server.listen(4040, () => {})
+app.listen(3000, () => {})
