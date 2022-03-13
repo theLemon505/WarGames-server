@@ -8,6 +8,7 @@ const server = require("http").createServer(app)
 const wss = new WebSocket.Server({server:server})
 const CircularJSON = require('circular-json')
 const res = require("express/lib/response")
+const Item = require("./item")
 
 console.log("server running on port:4040")
 
@@ -116,16 +117,20 @@ wss.on("connection", (ws) => {
                     }
                 }
             }
-            if (json.type == "sync"){
-                var room = getRoom(json.roomId)
-                if(room != null){
-                    room.sendToAllClients(CircularJSON.stringify({"name":json.name, "type":"sync", "status":"good", "vel":json.vel}))
-                }
-            }
             if (json.type == "spawn"){
                 var room = getRoom(json.roomId)
+                var item = new Item(json.name, uuidv4())
                 if(room != null){
-                    room.sendToAllClients(CircularJSON.stringify({"name":json.name, "position":json.position, "type":"spawn", "status":"good", "child":json.child_path, "parent":json.parent_path}))
+                    item.meta = json.meta
+                    room.addItem(item)
+                    room.sendToAllClients(CircularJSON.stringify({"type":"spawn", "status":"good","name":item.name, "path":json.path, "meta":item.meta}))
+                }
+            }
+            if (json.type == "delete"){
+                var room = getRoom(json.roomId)
+                if (room != null){
+                    room.removeItem(json.id)
+                    room.sendToAllClients(CircularJSON.stringify({"type":"delete", "status":"good","name":item.name, "id":item.id}))
                 }
             }
             if (json.type == "update-room"){
