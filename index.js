@@ -119,30 +119,26 @@ wss.on("connection", (ws) => {
             }
             if (json.type == "spawn"){
                 var room = getRoom(json.roomId)
-                var item = new Item(json.name, uuidv4())
                 if(room != null){
-                    item.meta = json.meta
-                    room.addItem(item)
-                    room.sendToAllClients(CircularJSON.stringify({"type":"spawn", "status":"good","name":item.name, "path":json.path, "meta":item.meta}))
+                    room.sendToAllClients(CircularJSON.stringify({"type":"spawn", "status":"good","name":json.name, "path":json.path, "meta":json.meta}))
                 }
             }
             if (json.type == "delete"){
                 var room = getRoom(json.roomId)
                 if (room != null){
-                    room.removeItem(json.id)
-                    room.sendToAllClients(CircularJSON.stringify({"type":"delete", "status":"good","name":item.name, "id":item.id}))
+                    room.sendToAllClients(CircularJSON.stringify({"type":"delete", "status":"good","name":json.name}))
+                }
+            }
+            if(json.type == "update-item"){
+                var room = getRoom(json.roomId)
+                if(room != null){
+                    room.sendToAllClients(CircularJSON.stringify({"type":"update_item", "status":"good","name":json.name, "meta":json.meta}))
                 }
             }
             if (json.type == "update-room"){
                 var room = getRoom(json.roomId)
                 if(room != null){
                     room.sendToAllClients(CircularJSON.stringify({"type":"room", "status":"good","data":room.data}))
-                }
-            }
-            if (json.type == "delete"){
-                var room = getRoom(json.roomId)
-                if(room != null){
-                    room.sendToAllClients({"type":"delete","status":"good","node":json.node})
                 }
             }
             if (json.type == "set-meta"){
