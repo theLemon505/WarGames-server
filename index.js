@@ -129,6 +129,12 @@ wss.on("connection", (ws) => {
                     room.sendToAllClients(CircularJSON.stringify({"type":"delete", "status":"good","name":json.name}))
                 }
             }
+            if (json.type == "kill"){
+                var room = getRoom(json.roomId)
+                if (room != null){
+                    room.sendToAllClients(CircularJSON.stringify({"type":"kill", "status":"good", "name":json.name, "path":json.path}))
+                }
+            }
             if(json.type == "update-item"){
                 var room = getRoom(json.roomId)
                 if(room != null){
